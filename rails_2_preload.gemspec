@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name        = "rails_2_preload"
-  spec.version     = "0.0.3.paperless"
+  spec.version     = "0.0.4.paperless"
   spec.date        = "2012-07-30"
   spec.summary     = "Preloads Rails 2 for testing with Spin"
   spec.description = %{The purpose of Rails2Preload is to optimize testing with Spin

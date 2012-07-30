@@ -160,10 +160,6 @@ class Rails2Preload
       end
     end
 
-    def this_pathname
-      Pathname.new(__FILE__).dirname
-    end
-
     def rails_root
       Bundler.root
     end

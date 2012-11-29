@@ -49,11 +49,11 @@ class Rails2Preload
     :initialize_database_middleware,
     :prepare_dispatcher,
     :initialize_routing,
-    :load_observers,
-    :load_view_paths
+    :load_observers
   ]
 
   POSTLOAD_METHODS = [
+    :load_view_paths,
     :load_application_classes,
     :disable_dependency_loading
   ]

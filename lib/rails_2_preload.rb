@@ -6,15 +6,15 @@ require "pathname"
 # (Rails::Initializer#process) into two phases: preload and postload. This
 # gives us the capability of using Spin:
 #
-# * without having to reboot every time a class is modified
+# * without having to reboot Rails every time a class is modified
 #
 # * without having to disable class caching, which is enabled by default in
 #   the Rails "test" environment - unfortunately, some testing tools have come
 #   to rely on this (Capybara, for example)
 #
-class Rails2Preload
-
-  PRELOAD_METHODS = [
+module Rails2Preload
+  # All of the methods of the Rails initialization process, in order.
+  METHODS = [
     :check_ruby_version,
     :install_gem_spec_stubs,
     :set_load_path,
@@ -50,131 +50,125 @@ class Rails2Preload
     :prepare_dispatcher,
     :initialize_routing,
     :load_observers,
-    :load_view_paths
-  ]
-
-  POSTLOAD_METHODS = [
+    :load_view_paths,
     :load_application_classes,
     :disable_dependency_loading
   ]
 
   class << self
+    # The methods run in the preload phase.
+    attr_reader :preload_methods
+    # The methods run in the postload phase.
+    attr_reader :postload_methods
+  end
 
-    # If set to true, classes are loaded as a part of the preload phase. Best
-    # for situations where the test author doesn't need to modify the Rails
-    # code.
-    attr_accessor :preload_classes
-    alias :preload_classes? :preload_classes
+  # Given a method name, the methods of the Rails initialization process are
+  # split into two groups, preload and postload.
+  def self.preload_until(method)
+    index = METHODS.index(method)
+    raise(ArgumentError, method) if index.nil?
 
-    # Called from .spin.rb to add all hooks necessary to integrate
-    # Rails2Preload.
-    def add_spin_hooks
-      Spin.hook(:before_preload) { Rails2Preload.prepare_rails }
+    @preload_methods, @postload_methods = METHODS[0..index - 1], METHODS[index..-1]
+  end
 
-      Spin.hook(:after_preload) do
-        if Rails2Preload.preload_classes?
-          # When classes are preloaded, empty the connection pool so forked
-          # processes are forced to establish new connections. Otherwise, the
-          # second time a test is run, an exception like this is raised:
-          #   ActiveRecord::StatementInvalid PGError: no connection to the server
-          ActiveRecord::Base.connection_pool.disconnect!
-        end
-      end
+  # By default, we'll preload until the application classes (i.e. models) are
+  # loaded. This is optimal for unit testing.
+  self.preload_until(:load_application_classes)
 
-      Spin.hook(:after_fork) do
-        # Create a new initializer instance, but reuse the configuration
-        # already established by the preload phase.
-        initializer = Rails::Initializer.new(Rails.configuration)
-        initializer.postload
-      end
-    end
+  # Called from .spin.rb to add all hooks necessary to integrate
+  # Rails2Preload.
+  def self.add_spin_hooks
+    Spin.hook(:before_preload) { Rails2Preload.prepare_rails }
 
-    # Called by the Rails patch to run the preload phase.
-    def preload(initializer)
-      preload_methods.each { |method| benchmark(initializer, method) }
-    end
-
-    # Called by the Rails patch to run the postload phase.
-    def postload(initializer)
-      postload_methods.each { |method| benchmark(initializer, method) }
-    end
-
-    # Called by the :before_preload Spin hook to prepare Rails.
-    def prepare_rails
-      # We need to boot Rails before adding methods to Rails::Initializer.
-      # Otherwise, Rails.booted? returns true and Rails.boot! short-circuits.
-      boot_rails
-      apply_initializer_patch
-    end
-
-  private
-
-    # This is the monkey-patch that splits the Rails 2 initialization process
-    # (Rails::Initializer#process) into two phases, preload and postload.
-    def apply_initializer_patch
-      module_eval <<-RUBY , __FILE__, __LINE__ + 1
-        module ::Rails
-          class Initializer
-            # The run method does support executing an arbitrary method (the
-            # command parameter) to initialize Rails. However, my preference
-            # is to not change anything (including environment.rb) in any way
-            # to support Spin.
-            def self.run(command = :preload, configuration = Configuration.new)
-              yield configuration if block_given?
-              initializer = new configuration
-              initializer.send(command)
-              initializer
-            end
-
-            # Runs the first half of the Rails initialization process.
-            def preload
-              Rails.configuration = configuration
-              Rails2Preload.preload(self)
-            end
-
-            # Runs the second half of the Rails initialization process.
-            def postload
-              Rails2Preload.postload(self)
-              Rails.initialized = true
-            end
-          end # Initializer
-        end # Rails
-      RUBY
-    end
-
-    # Returns all of the methods that should be run in the preload phase.
-    def preload_methods
-      if preload_classes?
-        PRELOAD_METHODS << :load_application_classes
-      else
-        PRELOAD_METHODS
+    Spin.hook(:after_preload) do
+      if Rails2Preload.preload_methods.include? :load_application_classes
+        # If classes are preloaded, empty the connection pool so forked
+        # processes are forced to establish new connections. Otherwise, the
+        # second time a test is run, an exception like this is raised:
+        #   ActiveRecord::StatementInvalid PGError: no connection to the server
+        ActiveRecord::Base.connection_pool.disconnect!
       end
     end
 
-    # Returns all of the methods that should be run in the postload phase.
-    def postload_methods
-      if preload_classes?
-        POSTLOAD_METHODS - [:load_application_classes]
-      else
-        POSTLOAD_METHODS
-      end
+    Spin.hook(:after_fork) do
+      # Create a new initializer instance, but reuse the configuration already
+      # established by the preload phase.
+      initializer = Rails::Initializer.new(Rails.configuration)
+      initializer.postload
     end
+  end
 
-    def rails_root
-      Bundler.root
-    end
+  # Called by the Rails patch to run the preload phase.
+  def self.preload(initializer)
+    preload_methods.each { |method| benchmark(initializer, method) }
+  end
 
-    def boot_rails
-      require rails_root + "config" + "boot"
-    end
+  # Called by the Rails patch to run the postload phase.
+  def self.postload(initializer)
+    postload_methods.each { |method| benchmark(initializer, method) }
+  end
 
-    # Benchmarks a method sent to an object and outputs the result to the
-    # console.
-    def benchmark(object, method, *args)
-      print "[Rails2Preload] #{method}"
-      result = Benchmark.realtime { object.send(method, *args) }
-      puts "#{"%0.3f" % result}s".rjust(40 - method.length)
-    end
+  # Called by the :before_preload Spin hook to prepare Rails.
+  def self.prepare_rails
+    # We need to boot Rails before adding methods to Rails::Initializer.
+    # Otherwise, Rails.booted? returns true and Rails.boot! short-circuits.
+    boot_rails
+    apply_initializer_patch
+  end
 
-  end # self
+private
+
+  # This is the monkey-patch that splits the Rails 2 initialization process
+  # (Rails::Initializer#process) into two phases, preload and postload.
+  def self.apply_initializer_patch
+    module_eval <<-RUBY , __FILE__, __LINE__ + 1
+      module ::Rails
+        class Initializer
+          # The run method *does* support calling an arbitrary method (the
+          # command parameter) to initialize Rails. However, my personal
+          # preference is to not change anything in the app (in this case,
+          # environment.rb) to support Spin.
+          def self.run(command = :preload, configuration = Configuration.new)
+            yield configuration if block_given?
+            initializer = new configuration
+            initializer.send(command)
+            initializer
+          end
+
+          # Runs the preload phase of the Rails initialization process.
+          def preload
+            Rails.configuration = configuration
+            Rails2Preload.preload(self)
+          end
+
+          # Runs the postload phase of the Rails initialization process.
+          def postload
+            Rails2Preload.postload(self)
+            Rails.initialized = true
+          end
+        end # Initializer
+      end # Rails
+    RUBY
+  end
+
+  # Returns a Pathname object. We'll use it to determine what the Rails root
+  # is before the Rails module is available.
+  def self.rails_root
+    Bundler.root
+  end
+
+  def self.boot_rails
+    require(rails_root + "config/boot")
+  end
+
+  def self.initialize_rails
+    require(rails_root + "config/environment")
+  end
+
+  # Benchmarks a method sent to an object and prints the result.
+  def self.benchmark(object, method, *args)
+    print "[Rails2Preload] #{method}"
+    seconds = Benchmark.realtime { object.send(method, *args) }
+    puts "#{"%0.3f" % seconds}s".rjust(40 - method.length)
+  end
 end # Rails2Preload

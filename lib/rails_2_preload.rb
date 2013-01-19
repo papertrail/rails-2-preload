@@ -8,9 +8,7 @@ require "pathname"
 #
 # * without having to reboot Rails every time a class is modified
 #
-# * without having to disable class caching, which is enabled by default in
-#   the Rails "test" environment - unfortunately, some testing tools have come
-#   to rely on this (Capybara, for example)
+# * without having to disable class caching
 #
 module Rails2Preload
   # All of the methods of the Rails initialization process, in order.

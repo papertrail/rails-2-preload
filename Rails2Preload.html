@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module Rails2Preload - Rails2Preload</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/rails_2_preload.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-add_spin_hooks">::add_spin_hooks</a>
+    
+    <li><a href="#method-c-postload">::postload</a>
+    
+    <li><a href="#method-c-preload">::preload</a>
+    
+    <li><a href="#method-c-preload_until">::preload_until</a>
+    
+    <li><a href="#method-c-prepare_rails">::prepare_rails</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./Gemfile.html">Gemfile</a>
+  
+    <li class="file"><a href="./Rakefile.html">Rakefile</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./ActiveRecord.html">ActiveRecord</a>
+  
+    <li><a href="./ActiveRecord/Base.html">ActiveRecord::Base</a>
+  
+    <li><a href="./ActiveRecord/ConnectionPool.html">ActiveRecord::ConnectionPool</a>
+  
+    <li><a href="./Rails.html">Rails</a>
+  
+    <li><a href="./Rails/Configuration.html">Rails::Configuration</a>
+  
+    <li><a href="./Rails/Initializer.html">Rails::Initializer</a>
+  
+    <li><a href="./Rails2PreloadTest.html">Rails2PreloadTest</a>
+  
+    <li><a href="./Rails2PreloadTest/Rails2Preload.html">Rails2PreloadTest::Rails2Preload</a>
+  
+    <li><a href="./Rails2Preload.html">Rails2Preload</a>
+  
+    <li><a href="./Spin.html">Spin</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module Rails2Preload</h1>
+
+  <div id="description" class="description">
+    
+<p>The purpose of <a href="Rails2Preload.html">Rails2Preload</a> is to
+optimize testing with <a href="Spin.html">Spin</a> and <a
+href="Rails.html">Rails</a> 2. It does this by splitting the <a
+href="Rails.html">Rails</a> 2 initialization method
+(Rails::Initializer#process) into two phases: preload and postload. This
+gives us the capability of using Spin:</p>
+<ul><li>
+<p>without having to reboot <a href="Rails.html">Rails</a> every time a class
+is modified</p>
+</li><li>
+<p>without having to disable class caching</p>
+</li></ul>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="METHODS">METHODS
+        
+        <dd class="description"><p>All of the methods of the <a href="Rails.html">Rails</a> initialization
+process, in order.</p>
+        
+      
+      </dl>
+    </section>
+    
+
+    
+    <!-- Attributes -->
+    <section id="attribute-method-details" class="method-section section">
+      <h3 class="section-header">Attributes</h3>
+
+      
+      <div id="attribute-c-postload_methods" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">postload_methods</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        <p>The methods run in the postload phase.</p>
+        
+        </div>
+      </div>
+      
+      <div id="attribute-c-preload_methods" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">preload_methods</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        <p>The methods run in the preload phase.</p>
+        
+        </div>
+      </div>
+      
+    </section><!-- attribute-method-details -->
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-add_spin_hooks" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">add_spin_hooks</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Called from .spin.rb to add all hooks necessary to integrate <a
+href="Rails2Preload.html">Rails2Preload</a>.</p>
+          
+
+          
+          <div class="method-source-code" id="add_spin_hooks-source">
+            <pre><span class="ruby-comment"># File lib/rails_2_preload.rb, line 78</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">add_spin_hooks</span>
+  <span class="ruby-constant">Spin</span>.<span class="ruby-identifier">hook</span>(<span class="ruby-value">:before_preload</span>) { <span class="ruby-constant">Rails2Preload</span>.<span class="ruby-identifier">prepare_rails</span> }
+
+  <span class="ruby-constant">Spin</span>.<span class="ruby-identifier">hook</span>(<span class="ruby-value">:after_preload</span>) <span class="ruby-keyword">do</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-constant">Rails2Preload</span>.<span class="ruby-identifier">preload_methods</span>.<span class="ruby-identifier">include?</span> <span class="ruby-value">:load_application_classes</span>
+      <span class="ruby-comment"># If classes are preloaded, empty the connection pool so forked</span>
+      <span class="ruby-comment"># processes are forced to establish new connections. Otherwise, the</span>
+      <span class="ruby-comment"># second time a test is run, an exception like this is raised:</span>
+      <span class="ruby-comment">#   ActiveRecord::StatementInvalid PGError: no connection to the server</span>
+      <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">connection_pool</span>.<span class="ruby-identifier">disconnect!</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-constant">Spin</span>.<span class="ruby-identifier">hook</span>(<span class="ruby-value">:after_fork</span>) <span class="ruby-keyword">do</span>
+    <span class="ruby-comment"># Create a new initializer instance, but reuse the configuration already</span>
+    <span class="ruby-comment"># established by the preload phase.</span>
+    <span class="ruby-identifier">initializer</span> = <span class="ruby-constant">Rails</span><span class="ruby-operator">::</span><span class="ruby-constant">Initializer</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">Rails</span>.<span class="ruby-identifier">configuration</span>)
+    <span class="ruby-identifier">initializer</span>.<span class="ruby-identifier">postload</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- add_spin_hooks-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- add_spin_hooks-method -->
+
+    
+      <div id="method-c-postload" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">postload</span><span
+            class="method-args">(initializer)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Called by the <a href="Rails.html">Rails</a> patch to run the postload
+phase.</p>
+          
+
+          
+          <div class="method-source-code" id="postload-source">
+            <pre><span class="ruby-comment"># File lib/rails_2_preload.rb, line 105</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">postload</span>(<span class="ruby-identifier">initializer</span>)
+  <span class="ruby-identifier">postload_methods</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">method</span><span class="ruby-operator">|</span> <span class="ruby-identifier">benchmark</span>(<span class="ruby-identifier">initializer</span>, <span class="ruby-identifier">method</span>) }
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- postload-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- postload-method -->
+
+    
+      <div id="method-c-preload" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">preload</span><span
+            class="method-args">(initializer)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Called by the <a href="Rails.html">Rails</a> patch to run the preload
+phase.</p>
+          
+
+          
+          <div class="method-source-code" id="preload-source">
+            <pre><span class="ruby-comment"># File lib/rails_2_preload.rb, line 100</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">preload</span>(<span class="ruby-identifier">initializer</span>)
+  <span class="ruby-identifier">preload_methods</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">method</span><span class="ruby-operator">|</span> <span class="ruby-identifier">benchmark</span>(<span class="ruby-identifier">initializer</span>, <span class="ruby-identifier">method</span>) }
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- preload-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- preload-method -->
+
+    
+      <div id="method-c-preload_until" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">preload_until</span><span
+            class="method-args">(method)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Given a method name, the methods of the <a href="Rails.html">Rails</a>
+initialization process are split into two groups, preload and postload.</p>
+          
+
+          
+          <div class="method-source-code" id="preload_until-source">
+            <pre><span class="ruby-comment"># File lib/rails_2_preload.rb, line 65</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">preload_until</span>(<span class="ruby-identifier">method</span>)
+  <span class="ruby-identifier">index</span> = <span class="ruby-constant">METHODS</span>.<span class="ruby-identifier">index</span>(<span class="ruby-identifier">method</span>)
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-identifier">method</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">index</span>.<span class="ruby-identifier">nil?</span>
+
+  <span class="ruby-ivar">@preload_methods</span>, <span class="ruby-ivar">@postload_methods</span> = <span class="ruby-constant">METHODS</span>[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-identifier">index</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>], <span class="ruby-constant">METHODS</span>[<span class="ruby-identifier">index</span><span class="ruby-operator">..</span><span class="ruby-value">-1</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- preload_until-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- preload_until-method -->
+
+    
+      <div id="method-c-prepare_rails" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">prepare_rails</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Called by the :before_preload <a href="Spin.html">Spin</a> hook to prepare
+<a href="Rails.html">Rails</a>.</p>
+          
+
+          
+          <div class="method-source-code" id="prepare_rails-source">
+            <pre><span class="ruby-comment"># File lib/rails_2_preload.rb, line 110</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">prepare_rails</span>
+  <span class="ruby-comment"># We need to boot Rails before adding methods to Rails::Initializer.</span>
+  <span class="ruby-comment"># Otherwise, Rails.booted? returns true and Rails.boot! short-circuits.</span>
+  <span class="ruby-identifier">boot_rails</span>
+  <span class="ruby-identifier">apply_initializer_patch</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- prepare_rails-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- prepare_rails-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

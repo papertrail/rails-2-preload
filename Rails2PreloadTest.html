@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class Rails2PreloadTest - Rails2Preload</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>test/rails_2_preload_test.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">Test::Unit::TestCase
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-setup">#setup</a>
+    
+    <li><a href="#method-i-teardown">#teardown</a>
+    
+    <li><a href="#method-i-test_add_spin_hooks">#test_add_spin_hooks</a>
+    
+    <li><a href="#method-i-test_after_fork">#test_after_fork</a>
+    
+    <li><a href="#method-i-test_after_preload_classes_are_preloaded">#test_after_preload_classes_are_preloaded</a>
+    
+    <li><a href="#method-i-test_after_preload_classes_not_preloaded">#test_after_preload_classes_not_preloaded</a>
+    
+    <li><a href="#method-i-test_before_preload">#test_before_preload</a>
+    
+    <li><a href="#method-i-test_initialize_rails">#test_initialize_rails</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./Gemfile.html">Gemfile</a>
+  
+    <li class="file"><a href="./Rakefile.html">Rakefile</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./ActiveRecord.html">ActiveRecord</a>
+  
+    <li><a href="./ActiveRecord/Base.html">ActiveRecord::Base</a>
+  
+    <li><a href="./ActiveRecord/ConnectionPool.html">ActiveRecord::ConnectionPool</a>
+  
+    <li><a href="./Rails.html">Rails</a>
+  
+    <li><a href="./Rails/Configuration.html">Rails::Configuration</a>
+  
+    <li><a href="./Rails/Initializer.html">Rails::Initializer</a>
+  
+    <li><a href="./Rails2PreloadTest.html">Rails2PreloadTest</a>
+  
+    <li><a href="./Rails2PreloadTest/Rails2Preload.html">Rails2PreloadTest::Rails2Preload</a>
+  
+    <li><a href="./Rails2Preload.html">Rails2Preload</a>
+  
+    <li><a href="./Spin.html">Spin</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Rails2PreloadTest</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-setup" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">setup</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="setup-source">
+            <pre><span class="ruby-comment"># File test/rails_2_preload_test.rb, line 4</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">setup</span>
+  <span class="ruby-comment"># Use Kernel.load instead of Kernel.require so the objects can be reloaded</span>
+  <span class="ruby-comment"># after being removed in the teardown step.</span>
+  <span class="ruby-identifier">load</span> <span class="ruby-string">&quot;rails_2_preload.rb&quot;</span>
+  <span class="ruby-identifier">load</span> <span class="ruby-string">&quot;mocks/spin.rb&quot;</span>
+  <span class="ruby-identifier">load</span> <span class="ruby-string">&quot;mocks/active_record.rb&quot;</span>
+  <span class="ruby-identifier">load</span> <span class="ruby-string">&quot;mocks/rails.rb&quot;</span>
+
+  <span class="ruby-comment"># Patch a couple Rails2Preload methods that use Kernel.require.</span>
+  <span class="ruby-keyword">def</span> <span class="ruby-constant">Rails2Preload</span>.<span class="ruby-identifier">boot_rails</span>
+    <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">boot!</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">def</span> <span class="ruby-constant">Rails2Preload</span>.<span class="ruby-identifier">initialize_rails</span>
+    <span class="ruby-constant">Rails</span><span class="ruby-operator">::</span><span class="ruby-constant">Initializer</span>.<span class="ruby-identifier">run</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment"># Add the Spin hooks.</span>
+  <span class="ruby-constant">Rails2Preload</span>.<span class="ruby-identifier">add_spin_hooks</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- setup-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- setup-method -->
+
+    
+      <div id="method-i-teardown" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">teardown</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="teardown-source">
+            <pre><span class="ruby-comment"># File test/rails_2_preload_test.rb, line 25</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">teardown</span>
+  <span class="ruby-comment"># Remove all the loaded objects so the next test beings with a completely</span>
+  <span class="ruby-comment"># &quot;clean&quot; environment.</span>
+  <span class="ruby-constant">Object</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:remove_const</span>, <span class="ruby-value">:Rails2Preload</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-constant">Rails2Preload</span>)
+  <span class="ruby-constant">Object</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:remove_const</span>, <span class="ruby-value">:Spin</span>)          <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-constant">Spin</span>)
+  <span class="ruby-constant">Object</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:remove_const</span>, <span class="ruby-value">:ActiveRecord</span>)  <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-constant">ActiveRecord</span>)
+  <span class="ruby-constant">Object</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:remove_const</span>, <span class="ruby-value">:Rails</span>)         <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-constant">Rails</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- teardown-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- teardown-method -->
+
+    
+      <div id="method-i-test_add_spin_hooks" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_add_spin_hooks</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Test that the <a href="Spin.html">Spin</a> hooks have been added.</p>
+          
+
+          
+          <div class="method-source-code" id="test_add_spin_hooks-source">
+            <pre><span class="ruby-comment"># File test/rails_2_preload_test.rb, line 35</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_add_spin_hooks</span>
+  [<span class="ruby-value">:before_preload</span>, <span class="ruby-value">:after_preload</span>, <span class="ruby-value">:after_fork</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">hooks</span> = <span class="ruby-constant">Spin</span>.<span class="ruby-identifier">_hooks</span>(<span class="ruby-identifier">name</span>)
+
+    <span class="ruby-identifier">refute</span>       <span class="ruby-identifier">hooks</span>.<span class="ruby-identifier">empty?</span>
+    <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">1</span>, <span class="ruby-identifier">hooks</span>.<span class="ruby-identifier">count</span>
+    <span class="ruby-identifier">assert</span>       <span class="ruby-identifier">hooks</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Proc</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">assert</span> <span class="ruby-constant">Spin</span>.<span class="ruby-identifier">_hooks</span>(<span class="ruby-value">:before_fork</span>).<span class="ruby-identifier">empty?</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_add_spin_hooks-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_add_spin_hooks-method -->
+
+    
+      <div id="method-i-test_after_fork" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_after_fork</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Test that <a href="Rails.html">Rails</a> is fully loaded by the time the
+after_fork hook is executed.</p>
+          
+
+          
+          <div class="method-source-code" id="test_after_fork-source">
+            <pre><span class="ruby-comment"># File test/rails_2_preload_test.rb, line 92</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_after_fork</span>
+  <span class="ruby-constant">Spin</span>.<span class="ruby-identifier">execute_hook</span>(<span class="ruby-value">:before_preload</span>)
+  <span class="ruby-constant">Rails2Preload</span>.<span class="ruby-identifier">initialize_rails</span>
+  <span class="ruby-constant">Spin</span>.<span class="ruby-identifier">execute_hook</span>(<span class="ruby-value">:after_preload</span>)
+  <span class="ruby-constant">Spin</span>.<span class="ruby-identifier">execute_hook</span>(<span class="ruby-value">:before_fork</span>)
+  <span class="ruby-constant">Spin</span>.<span class="ruby-identifier">execute_hook</span>(<span class="ruby-value">:after_fork</span>)
+
+  <span class="ruby-identifier">assert_equal</span> (<span class="ruby-constant">Rails2Preload</span>.<span class="ruby-identifier">preload_methods</span> <span class="ruby-operator">+</span> <span class="ruby-constant">Rails2Preload</span>.<span class="ruby-identifier">postload_methods</span>), <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">methods_called</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_after_fork-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_after_fork-method -->
+
+    
+      <div id="method-i-test_after_preload_classes_are_preloaded" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_after_preload_classes_are_preloaded</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Test that the <a href="ActiveRecord.html">ActiveRecord</a> connection pool
+<strong>is</strong> disconnected if the classes <strong>are</strong>
+preloaded when the after_preload hook is executed.</p>
+          
+
+          
+          <div class="method-source-code" id="test_after_preload_classes_are_preloaded-source">
+            <pre><span class="ruby-comment"># File test/rails_2_preload_test.rb, line 79</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_after_preload_classes_are_preloaded</span>
+  <span class="ruby-constant">Rails2Preload</span>.<span class="ruby-identifier">preload_until</span>(<span class="ruby-value">:disable_dependency_loading</span>)
+  <span class="ruby-identifier">assert</span> <span class="ruby-constant">Rails2Preload</span>.<span class="ruby-identifier">preload_methods</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-value">:load_application_classes</span>)
+
+  <span class="ruby-constant">Spin</span>.<span class="ruby-identifier">execute_hook</span>(<span class="ruby-value">:before_preload</span>)
+  <span class="ruby-constant">Rails2Preload</span>.<span class="ruby-identifier">initialize_rails</span>
+  <span class="ruby-constant">Spin</span>.<span class="ruby-identifier">execute_hook</span>(<span class="ruby-value">:after_preload</span>)
+
+  <span class="ruby-identifier">assert</span> <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">connection_pool</span>.<span class="ruby-identifier">disconnected?</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_after_preload_classes_are_preloaded-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_after_preload_classes_are_preloaded-method -->
+
+    
+      <div id="method-i-test_after_preload_classes_not_preloaded" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_after_preload_classes_not_preloaded</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Test that the <a href="ActiveRecord.html">ActiveRecord</a> connection pool
+is <strong>not</strong> disconnected if the classes are
+<strong>not</strong> preloaded when the after_preload hook is executed.</p>
+          
+
+          
+          <div class="method-source-code" id="test_after_preload_classes_not_preloaded-source">
+            <pre><span class="ruby-comment"># File test/rails_2_preload_test.rb, line 67</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_after_preload_classes_not_preloaded</span>
+  <span class="ruby-identifier">refute</span> <span class="ruby-constant">Rails2Preload</span>.<span class="ruby-identifier">preload_methods</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-value">:load_application_classes</span>)
+
+  <span class="ruby-constant">Spin</span>.<span class="ruby-identifier">execute_hook</span>(<span class="ruby-value">:before_preload</span>)
+  <span class="ruby-constant">Rails2Preload</span>.<span class="ruby-identifier">initialize_rails</span>
+  <span class="ruby-constant">Spin</span>.<span class="ruby-identifier">execute_hook</span>(<span class="ruby-value">:after_preload</span>)
+
+  <span class="ruby-identifier">refute</span> <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">connection_pool</span>.<span class="ruby-identifier">disconnected?</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_after_preload_classes_not_preloaded-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_after_preload_classes_not_preloaded-method -->
+
+    
+      <div id="method-i-test_before_preload" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_before_preload</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Test that the <a href="Rails.html">Rails</a> 2 initializer is patched when
+the before_preload hook in executed.</p>
+          
+
+          
+          <div class="method-source-code" id="test_before_preload-source">
+            <pre><span class="ruby-comment"># File test/rails_2_preload_test.rb, line 49</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_before_preload</span>
+  <span class="ruby-constant">Spin</span>.<span class="ruby-identifier">execute_hook</span>(<span class="ruby-value">:before_preload</span>)
+
+  <span class="ruby-identifier">assert</span> <span class="ruby-constant">Rails</span><span class="ruby-operator">::</span><span class="ruby-constant">Initializer</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:run</span>)
+  <span class="ruby-identifier">assert</span> <span class="ruby-constant">Rails</span><span class="ruby-operator">::</span><span class="ruby-constant">Initializer</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">Rails</span><span class="ruby-operator">::</span><span class="ruby-constant">Configuration</span>.<span class="ruby-identifier">new</span>).<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:preload</span>)
+  <span class="ruby-identifier">assert</span> <span class="ruby-constant">Rails</span><span class="ruby-operator">::</span><span class="ruby-constant">Initializer</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">Rails</span><span class="ruby-operator">::</span><span class="ruby-constant">Configuration</span>.<span class="ruby-identifier">new</span>).<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:postload</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_before_preload-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_before_preload-method -->
+
+    
+      <div id="method-i-test_initialize_rails" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_initialize_rails</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Test that <a href="Rails.html">Rails</a> is preloaded when initialized.</p>
+          
+
+          
+          <div class="method-source-code" id="test_initialize_rails-source">
+            <pre><span class="ruby-comment"># File test/rails_2_preload_test.rb, line 58</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_initialize_rails</span>
+  <span class="ruby-constant">Spin</span>.<span class="ruby-identifier">execute_hook</span>(<span class="ruby-value">:before_preload</span>)
+  <span class="ruby-constant">Rails2Preload</span>.<span class="ruby-identifier">initialize_rails</span>
+
+  <span class="ruby-identifier">assert_equal</span> <span class="ruby-constant">Rails2Preload</span>.<span class="ruby-identifier">preload_methods</span>, <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">methods_called</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_initialize_rails-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_initialize_rails-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

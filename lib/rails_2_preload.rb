@@ -167,6 +167,6 @@ private
   def self.benchmark(object, method, *args)
     print "[Rails2Preload] #{method}"
     seconds = Benchmark.realtime { object.send(method, *args) }
-    puts "#{"%0.3f" % seconds}s".rjust(40 - method.length)
+    puts "#{"%0.3f" % seconds}s".rjust(40 - method.to_s.length)
   end
 end # Rails2Preload

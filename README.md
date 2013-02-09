@@ -51,3 +51,17 @@ To take advantage of this feature, create a Ruby script and preload it with Spin
 Rails2Preload.preload_until(:load_view_paths)
 Rails2Preload.initialize_rails
 ```
+
+## Contributions
+
+Bug reports, fixes, and new features are welcomed. If you'll like to contribute code, please:
+
+  1. Fork the project
+
+  2. Start a branch named for your new feature or bug
+
+  3. Run (and add to) the unit tests
+
+  4. Perform a pull request
+
+Thanks!

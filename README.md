@@ -9,10 +9,10 @@ The purpose of Rails2Preload is to optimize testing with [Spin](https://github.c
 
 ## Installation
 
-1. In your `Gemfile`, add:
+1. Install the gem:
 
-    ```ruby
-    gem "rails_2_preload", "~> 0.1"
+    ```
+    $ gem install rails_2_preload --version 0.1
     ```
 
 2. In your [`.spin.rb`](https://github.com/jstorimer/spin/blob/7e3acfbff6645f5c9fdc7be3fb2da4c87233ebb0/lib/spin/hooks.rb#L15-L18) file, add:

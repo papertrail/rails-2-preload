@@ -1,5 +1,7 @@
 # Rails2Preload
 
+[![Build Status](https://travis-ci.org/paperlesspost/rails-2-preload.png)](https://travis-ci.org/paperlesspost/rails-2-preload)
+
 ## Description
 
 The purpose of Rails2Preload is to optimize testing with [Spin](https://github.com/jstorimer/spin/) and Rails 2. It does this by splitting the Rails 2 initialization method ([`Rails::Initializer#process`](https://github.com/rails/rails/blob/2-3-stable/railties/lib/initializer.rb#L126)) into two phases: *preload* and *postload*. This gives us the capability of using Spin:

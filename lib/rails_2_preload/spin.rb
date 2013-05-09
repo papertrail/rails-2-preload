@@ -1,3 +1,5 @@
+require 'rails_2_preload'
+
 module Rails2Preload
   module Spin
 

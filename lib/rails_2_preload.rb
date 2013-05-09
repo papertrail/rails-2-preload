@@ -71,7 +71,7 @@ module Rails2Preload
 
   # By default, we'll preload until the application classes (i.e. models) are
   # loaded. This is optimal for unit testing.
-  self.preload_until(:load_application_classes)
+  self.preload_until(:disable_dependency_loading)
 
   # Called from .spin.rb to add all hooks necessary to integrate
   # Rails2Preload.

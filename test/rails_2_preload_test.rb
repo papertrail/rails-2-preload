@@ -5,6 +5,7 @@ class Rails2PreloadTest < Test::Unit::TestCase
     # Use Kernel.load instead of Kernel.require so the objects can be reloaded
     # after being removed in the teardown step.
     load "rails_2_preload.rb"
+    load "rails_2_preload/spin.rb"
     load "mocks/spin.rb"
     load "mocks/active_record.rb"
     load "mocks/rails.rb"
@@ -19,7 +20,7 @@ class Rails2PreloadTest < Test::Unit::TestCase
     end
 
     # Add the Spin hooks.
-    Rails2Preload.add_spin_hooks
+    Rails2Preload::Spin.add_spin_hooks
   end
 
   def teardown

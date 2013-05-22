@@ -14,14 +14,15 @@ The purpose of Rails2Preload is to optimize testing with [Spin](https://github.c
 1. Install the gem:
 
     ```
-    $ gem install rails_2_preload --version 0.1
+    $ gem install rails_2_preload --version 0.2
     ```
 
 2. In your [`.spin.rb`](https://github.com/jstorimer/spin/blob/7e3acfbff6645f5c9fdc7be3fb2da4c87233ebb0/lib/spin/hooks.rb#L15-L18) file, add:
 
     ```ruby
     require "rails_2_preload"
-    Rails2Preload.add_spin_hooks
+    require "rails_2_preload/spin"
+    Rails2Preload::Spin.add_spin_hooks
     ```
 
 ## Usage

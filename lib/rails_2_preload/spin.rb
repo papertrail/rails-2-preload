@@ -6,8 +6,8 @@ module Rails2Preload
     # Called from .spin.rb to add all hooks necessary to integrate
     # Rails2Preload.
     def self.add_spin_hooks
-      # By default, we'll preload until the application classes (i.e. models) are
-      # loaded. This is optimal for unit testing.
+      # Inside the context of Spin, we'll preload until the application classes
+      # (i.e. models) are loaded. This is optimal for unit testing.
       Rails2Preload.preload_until(:load_application_classes)
       ::Spin.hook(:before_preload) { Rails2Preload.prepare_rails }
 

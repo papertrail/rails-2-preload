@@ -69,8 +69,7 @@ module Rails2Preload
     @preload_methods, @postload_methods = METHODS[0..index - 1], METHODS[index..-1]
   end
 
-  # By default, we'll preload until the application classes (i.e. models) are
-  # loaded. This is optimal for unit testing.
+  # By default, outside the context of Spin, we'll preload everything.
   self.preload_until(:disable_dependency_loading)
 
   # Called by the Rails patch to run the preload phase.

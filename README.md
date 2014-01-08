@@ -57,7 +57,7 @@ Rails2Preload.initialize_rails
 
 ## Contributions
 
-Bug reports, fixes, and new features are welcomed. If you'll like to contribute code, please:
+Bug reports, fixes, and new features are welcomed. If you'd like to contribute code, please:
 
   1. Fork the project
 

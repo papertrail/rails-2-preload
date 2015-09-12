@@ -58,7 +58,12 @@ module Rails2Preload
     attr_reader :preload_methods
     # The methods run in the postload phase.
     attr_reader :postload_methods
+
+    # Benchmark initializer methods.
+    attr_accessor :benchmark_initializers
   end
+
+  self.benchmark_initializers = false
 
   # Given a method name, the methods of the Rails initialization process are
   # split into two groups, preload and postload.
@@ -74,12 +79,12 @@ module Rails2Preload
 
   # Called by the Rails patch to run the preload phase.
   def self.preload(initializer)
-    preload_methods.each { |method| benchmark(initializer, method) }
+    preload_methods.each { |method| run_initializer(initializer, method) }
   end
 
   # Called by the Rails patch to run the postload phase.
   def self.postload(initializer)
-    postload_methods.each { |method| benchmark(initializer, method) }
+    postload_methods.each { |method| run_initializer(initializer, method) }
   end
 
   # Called by the :before_preload Spin hook to prepare Rails.
@@ -137,6 +142,14 @@ private
 
   def self.initialize_rails
     require(rails_root + "config/environment")
+  end
+
+  def self.run_initializer(initializer, method, *args)
+    if benchmark_initializers
+      benchmark initializer, method, *args
+    else
+      initializer.send(method, *args)
+    end
   end
 
   # Benchmarks a method sent to an object and prints the result.
